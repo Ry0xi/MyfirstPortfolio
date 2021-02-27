@@ -1,0 +1,291 @@
+// カラー
+$red: #ef4123;
+$black: #181b39;
+$white: #fffff9;
+$pearl: #fffef2;
+
+// 共通部分
+// logo
+.siteLogo {
+  font-family: 'Inconsolata', monospace;
+  color: $white;
+  span {
+  color: $red;
+  }
+}
+a {
+  display: block;
+}
+@keyframes menu-line-up {
+  0% {
+    transform: translateY(40px);
+    height: 0;
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(0);
+  }
+  80% {
+    height: 20px;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes menu-line-down {
+  0% {
+    transform: translateY(0);
+    height: 0;
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    height: 20px;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+body {
+  background: $pearl;
+}
+.header {
+  width: 100%;
+  position: relative;
+  .siteLogo {
+    font-size: 20px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+  }
+  .nav-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .up-nav-header {
+      height: 50px;
+      background: $black;
+      #js-buttonHamburger {
+        width: 39px;
+        height: 30px;
+        margin: 10px 0 10px calc(100% - 39px);
+        box-sizing: content-box;
+        overflow-x: hidden;
+        position: relative;
+        -webkit-transition: all .3s ease-in-out;
+              transition: all .3s ease-in-out;
+        .hamburger-line {
+          position: absolute;
+          top: 14px;
+          left: 6px;
+          width: 18px;
+          height: 2px;
+          border-radius: 1px;
+          background: $red;
+          -webkit-transition: inherit;
+              transition: inherit;
+          &::before,
+          &::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 1px;
+            background: $white;
+            -webkit-transition: inherit;
+                    transition: inherit;
+          }
+          &::before {
+            top: -7px;
+          }
+          &::after {
+            top: 7px;
+          }
+          .visuallyHidden {
+            position: absolute;
+            white-space: nowrap;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            border: 0;
+            padding: 0;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%); 
+          }
+        }
+        .hamburger-line-move {
+          position: absolute;
+          top: 14px;
+          left: 6px;
+          width: 18px;
+          height: 2px;
+          border-radius: 1px;
+          background: $red;
+          -webkit-transition: inherit;
+              transition: inherit;
+        }
+      }
+      #js-buttonHamburger[aria-expanded="true"] {
+        .hamburger-line {
+          background-color: transparent;
+          &::before,
+          &::after {
+            top: 0;
+          }
+          &::before {
+            -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                    transform: rotate(45deg);
+          }
+          &::after {
+            -webkit-transform: rotate(-45deg);
+                -ms-transform: rotate(-45deg);
+                    transform: rotate(-45deg);
+          }
+        }
+        .hamburger-line-move {
+          transform: translateX(40px);
+        }
+      }
+    }
+    .menu-nav-header {
+      width: 100%;
+      height: 100px;
+      background: rgba($black, 0.95);
+      font-family: 'Inconsolata', monospace;
+      padding: 10px;
+      transform: translateY(-150px);
+      opacity: 0;
+      -webkit-transition: transform 0s ease-in-out;
+            transition: transform 0s ease-in-out;
+      -webkit-transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out;
+      ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        color: $white;
+        font-size: 20px;
+        // background: rgba($black, 0.9);
+        li {
+          position: relative;
+          width: calc((100vw - 20px) / 3);
+          max-width: 150px;
+          text-align: center;
+          margin: 0 10px 0 0;
+          // background: $red;
+          &:nth-child(1)::before,
+          &:nth-child(3)::before {
+            position: absolute;
+            top: 0;
+            left: -10px;
+            content: "";
+            display: block;
+            width: 2px;
+            height: 20px;
+            border-radius: 1px;
+            background: $red;
+            margin: 10px 4px;
+            opacity: 0;
+          } 
+          &::after {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            content: "";
+            display: block;
+            width: 2px;
+            height: 20px;
+            border-radius: 1px;
+            background: $red;
+            margin: 10px 4px;
+            opacity: 0;
+          } 
+          a {
+            width: 100%;
+            line-height: 40px;
+          }
+        }
+      }
+    }
+    .anim1-area {
+      position: absolute;
+      top: 50px;
+      width: 100%;
+      height: 100px;
+      overflow-x: hidden;
+      .anim1-item {
+        position: absolute;
+        top: calc(50% - 1px);
+        left: 100%;
+        width: 24px;
+        height: 2px;
+        border-radius: 1px;
+        background: linear-gradient(90deg, $red, transparent);
+        .addFade-anim1-item {
+          width: 24px;
+          height: 2px;
+          border-radius: 1px;
+          background: linear-gradient(90deg, $red, transparent);
+        }
+      }
+    }
+  }
+}
+// ハンバーガーボタン押した後
+.is-drawerActive {
+  .header {
+    .nav-header {
+      .menu-nav-header {
+        transform: translateY(0);
+        opacity: 1;
+        ul {
+          li {
+            &:first-child::before {
+              transition-delay: 1.8s;
+              opacity: 1;
+              animation: menu-line-up .6s linear 1.2s 1;
+            }
+            &:first-child::after {
+              transition-delay: 1.6s;
+              opacity: 1;
+              animation: menu-line-up .6s linear 1s 1;
+            }
+            &:nth-child(2)::after {
+              transition-delay: 1.4s;
+              opacity: 1;
+              animation: menu-line-up .6s linear .8s 1;
+            }
+            &:nth-child(3)::before {
+              transition-delay: 1.8s;
+              opacity: 1;
+              animation: menu-line-down .6s linear 1.2s 1;
+            }
+            &:nth-child(3)::after {
+              transition-delay: 1.6s;
+              opacity: 1;
+              animation: menu-line-down .6s linear 1s 1;
+            }
+            &:last-child::after {
+              transition-delay: 1.4s;
+              opacity: 1;
+              animation: menu-line-down .6s linear .8s 1;
+            }
+          }
+        }
+      }
+      .anim1-area {
+        .anim1-item {
+          transition: transform 1s linear 0.5s;
+          transform: translateX(calc(-100vw - 24px));
+        }
+      }
+    }
+  }
+}
