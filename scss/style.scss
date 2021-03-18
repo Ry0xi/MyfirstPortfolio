@@ -1,9 +1,10 @@
-// カラー
+// 変数
 // $yellowOrange: #ef4123;
 $yellowOrange: #ffaf37;
 $black: #181b39;
 $white: #fffff9;
 $pearl: #fffef2;
+$header-y-lg: 72px;
 // フォント
 @font-face {
   font-family: 'Logo Type Gothic';
@@ -11,6 +12,17 @@ $pearl: #fffef2;
   url('../font/ロゴたいぷゴシック.woff') format('woff');
 }
 $logo-font: 'Inconsolata', monospace;
+
+// ブレイクポイント
+$breakpoints: (
+  'tab': 'screen and (min-width: 600px)',
+  'pc': 'screen and (min-width: 1025px)',
+) !default;
+@mixin mq($breakpoint: tab) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
 
 // 共通部分
 // logo
@@ -41,6 +53,13 @@ a {
 p {
   line-height: 1.4em;
   letter-spacing: .1em;
+}
+.btn {
+  font-weight: bold;
+  margin: 42px auto 0;
+  // padding: max(calc(1em + (1rem - 1em)), 0.2em) max(calc(1em + (1rem - 1em) * 0.2), 0.4em);
+  padding: calc(1em + (1rem - 1em)) calc(1em + (1rem - 1em) * 0.2);
+  border-radius: 5%;
 }
 
 
@@ -77,18 +96,24 @@ p {
   }
 }
 
-
+html {
+  font-size: 62.5%;
+}
 body {
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0.05em;
   background: $white;
   height: auto;
   position: relative;
-  padding: 0 0 200px;
 }
+// ヘッダー
 .header {
   width: 100%;
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   .nav-header {
     width: 100%;
     display: flex;
@@ -97,11 +122,19 @@ body {
     .up-nav-header {
       height: 50px;
       background: $black;
+      line-height: 1;
+      @include mq {
+        height: $header-y-lg;
+      }
       .siteLogo {
         font-size: 20px;
         position: absolute;
         top: 15px;
         left: 15px;
+        @include mq {
+          font-size: calc(#{$header-y-lg} * .4);
+          top: calc(#{$header-y-lg} * .3);
+        }
       }
       #js-buttonHamburger {
         width: 39px;
@@ -112,6 +145,9 @@ body {
         position: relative;
         -webkit-transition: all .3s ease-in-out;
               transition: all .3s ease-in-out;
+              @include mq {
+                display: none;
+              }
         .hamburger-line {
           position: absolute;
           top: 14px;
@@ -200,6 +236,15 @@ body {
             transition: top 0s;
       -webkit-transition: opacity 0.3s ease-in-out;
             transition: opacity 0.3s ease-in-out;
+      @include mq {
+        top: calc(#{$header-y-lg} * .1);
+        right: 0;
+        width: auto;
+        height: calc(#{$header-y-lg} * .8);
+        opacity: 1;
+        padding: 0;
+        background: transparent;
+      }
       ul {
         display: flex;
         flex-wrap: wrap;
@@ -208,11 +253,24 @@ body {
         margin: 0 auto;
         color: $white;
         font-size: 20px;
+        @include mq {
+          max-width: none;
+          width: fit-content;
+        }
         li {
           position: relative;
           width: calc((100% - 33px) / 2);
           text-align: center;
           margin: 0 10px 0 0;
+          @include mq {
+            width: max-content;
+            margin: 0 40px 0 0;
+          }
+          &::before {
+            @include mq {
+              display: none;
+            }
+          }
           &:nth-child(1)::before,
           &:nth-child(3)::before {
             position: absolute;
@@ -239,10 +297,35 @@ body {
             background: $yellowOrange;
             margin: 10px 4px;
             opacity: 0;
+            @include mq {
+              display: none;
+            }
           } 
           a {
             width: 100%;
             line-height: 40px;
+            @include mq {
+              line-height: calc(#{$header-y-lg} * .8);
+              position: relative;
+            }
+            @include mq {
+              &::after {
+                display: block;
+                content: '';
+                width: 100%;
+                height: 1.5px;
+                border-radius: 1px;
+                background: $yellowOrange;
+                position: absolute;
+                top: 75%;
+                transform: scaleX(0);
+                transition: transform .3s;
+                transform-origin: center;
+              }
+              &:hover::after {
+                transform: scaleX(1);
+              }
+            }
           }
         }
       }
@@ -254,6 +337,9 @@ body {
         height: 2px;
         border-radius: 1px;
         background: linear-gradient(90deg, $yellowOrange, transparent);
+        @include mq {
+          display: none;
+        }
         .addFade-anim1-item {
           width: 24px;
           height: 2px;
@@ -330,8 +416,14 @@ section {
   width: 100%;
   margin: 0 auto;
   padding: 42px 0;
+  @include mq(pc) {
+    padding: 84px 0;
+  }
   &:first-of-type {
     margin: 50px auto 0;
+    @include mq {
+      margin-top: $header-y-lg;
+    }
   }
   &:nth-of-type(odd) {
     background: $white;
@@ -344,8 +436,8 @@ section {
 }
 
 .title-section {
-  font-size: 24px;
-  margin: 0 0 42px;
+  font-size: 3rem;
+  margin: .5em 0 1em;
 }
 .info-section {
   width: 80%;
@@ -356,11 +448,12 @@ section {
     margin-top: 42px;
   }
   .title2nd-section {
-    font-size: 20px;
+    font-size: 2.2rem;
     margin: 0 auto 20px;
     width: max-content;
   }
   .desc-info-section {
+    font-size: 1.7rem;
     min-width: calc(18em * 1.1);
     max-width: calc(19em * 1.1);
     margin: 0 auto;
@@ -380,47 +473,92 @@ section {
     }
     .fa-check-square {
       color: $yellowOrange;
-      font-size: 18px;
+      font-size: 1.8rem;
       margin: 0 6px 0 0;
       vertical-align: baseline;
     }
     &-title {
-      font-size: 18px;
+      font-size: 1.8rem;
     }
   }
 }
 
 .catch {
   padding: 0;
+  position: relative;
   .iconBox {
     .iconRyokiHugu-sp {
       width: 100%;
+      @include mq(pc) {
+        display: none;
+      }
     }
     .iconRyokiHugu-pc {
       display: none;
+      @include mq(pc) {
+        display: block;
+        width: 100%;
+      }
     }
+  }
+  &-area-message {
+    display: none;
+    @include mq(pc) {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+    }
+  }
+  &-message {
+    font-size: 3rem;
+    line-height: 1.5em;
+  }
+}
+
+// aboutMe
+.aboutMe {
+  .btn {
+    color: $black;
+    background: $white;
   }
 }
 
 // works
 .articleContainer {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   width: 100%;
 }
 .worksItem {
-  width: 90%;
+  width: 84%;
+  max-width: 800px;
   margin: 0 auto 30px;
   padding: 30px 0;
-  border-radius: 3%;
+  border-radius: 2vw;
   box-shadow: 0 0 12px rgba($black, .24);
+  @include mq {
+    padding: 30px;
+  }
+  &-link {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    @include mq {
+      flex-direction: row;
+    }
+  }
   &-link:hover {
     opacity: .6;
   }
   &-area-image {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
     position: relative;
+    @include mq {
+      width: 40%;
+    }
     &::before{
       content: "";
       display: block;
@@ -438,15 +576,50 @@ section {
     margin: auto;
     object-fit: cover;
   }
+  &-area-info {
+    @include mq {
+      max-width: 60%;
+    }
+  }
   &-title {
     width: 80%;
-    font-size: 20px;
+    font-size: 2.2rem;
     margin: 20px auto;
   }
   &-desc {
     width: 80%;
     font-size: 16px;
     margin: 0 auto;
+    max-height: 9.5em;
+    overflow-y: hidden;
+  }
+}
+.btn {
+  font-size: 1.7rem;
+  color: $white;
+  background: $black;
+  transform: translateY(-15px);
+}
+
+
+// コンタクトフォーム
+.formArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 800px;
+  min-height: 400px;
+  background: $white;
+  border-radius: 2vw;
+  box-shadow: 0 0 2vw 1vw rgba($white, .24);
+  h2 {
+    color: $black;
+  }
+  .underConstruction {
+    font-size: 3rem;
+    opacity: .4;
   }
 }
 
@@ -454,9 +627,11 @@ section {
 .area-messageSentence {
   position: relative;
   width: 80%;
+  max-width: 600px;
+  min-height: 150px;
   margin: 0 auto 30px;
   padding: 30px 30px;
-  border-radius: 3%;
+  border-radius: 2vw;
   box-shadow: 0 0 12px rgba($black, .24);
   .messageSentence {
     margin: 0 0 16px;
@@ -466,7 +641,7 @@ section {
     bottom: 16px;
     right: 20px;
     color: $black;
-    font-size: 20px;
+    font-size: 2rem;
   }
 }
 
@@ -476,7 +651,7 @@ section {
   background: $black;
   padding: 10px 10px 0;
   position: absolute;
-  bottom: 0;
+  
   width: 100%;
   height: 200px;
 }
@@ -487,15 +662,16 @@ section {
   bottom: 20px;
   transform: translateX(-50%);
   .siteLogo {
-    font-size: 24px;
+    font-size: 2.4rem;
     margin: 0 auto;
-    transform: translateX(6px);
+    transform: translateX(.25em);
   }
   .area-copyright {
     margin: 0 auto;
     width: max-content;
   }
   .copyright {
+    display: block;
     color: $white;
     font-family: $logo-font;
   }
